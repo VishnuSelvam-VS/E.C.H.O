@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini API Key Tester</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ff2b2b;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: #1a1a2e;
+            border: 2px solid #ff2b2b;
+            color: white;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            background: #ff2b2b;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #ff4b4b;
+        }
+
+        #result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #1a1a2e;
+            border-radius: 10px;
+            white-space: pre-wrap;
+        }
+
+        .success {
+            color: #00cc96;
+        }
+
+        .error {
+            color: #ff2b2b;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔑 Gemini API Key Tester</h1>
+    <p>Test if your Google Gemini API key is working correctly.</p>
+
+    <input type="password" id="apiKey" placeholder="Enter your API key (AIza...)">
+    <button onclick="testApiKey()">Test API Key</button>
+
+    <div id="result"></div>
+
+    <script>
+        async function testApiKey() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            if (!apiKey) {
+                resultDiv.innerHTML = '<span class="error">Please enter an API key</span>';
+                return;
+            }
+
+            resultDiv.innerHTML = 'Testing API key...';
+
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: 'Say hello in one word'
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `<span class="success">✅ API Key is VALID!</span>\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ API Key Error</span>\n\nStatus: ${response.status}\nError:\n${JSON.stringify(data, null, 2)}\n\n<strong>Common Issues:</strong>\n1. API key might not have Gemini API enabled\n2. Go to: https://aistudio.google.com/app/apikey\n3. Make sure you're using the correct key\n4. Check if billing is enabled (if required)`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Network Error</span>\n\n${error.message}\n\nThis might be a CORS issue. The API key might be valid but browser restrictions prevent direct calls.`;
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+streamlit
+google-generativeai
+langgraph
+langchain
+langchain-google-genai
+plotly
+gTTS
+python-dotenv
+watchdog

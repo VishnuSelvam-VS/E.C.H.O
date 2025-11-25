@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E.C.H.O. - Crisis Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🚑</span>
+                <h1>E.C.H.O.</h1>
+            </div>
+            <p class="subtitle">Empathy & Crisis Handling Operative</p>
+        </header>
+
+        <!-- Tension Monitor - The Star -->
+        <section class="tension-monitor">
+            <div class="monitor-container">
+                <div class="tension-display" id="tensionDisplay">
+                    <div class="tension-value" id="tensionValue">100</div>
+                    <div class="tension-label">TENSION LEVEL</div>
+                    <div class="heart-rate" id="heartRate">💓 160 BPM</div>
+                </div>
+                
+                <!-- Live Chart -->
+                <div class="chart-container">
+                    <canvas id="tensionChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Patient Info -->
+            <div class="patient-card">
+                <div class="patient-avatar">
+                    <div class="avatar-circle">
+                        <span class="avatar-emoji">😰</span>
+                    </div>
+                    <div class="status-indicator" id="statusIndicator"></div>
+                </div>
+                <div class="patient-info">
+                    <h3>Sarah Martinez</h3>
+                    <p class="patient-age">24 years old</p>
+                    <p class="patient-status">ER Patient - Critical</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scenario Brief -->
+        <section class="scenario-brief">
+            <button class="brief-toggle" onclick="toggleBrief()">
+                📋 Scenario Brief
+            </button>
+            <div class="brief-content" id="briefContent">
+                <p><strong>Location:</strong> Emergency Room</p>
+                <p><strong>Situation:</strong> Severe allergic reaction, needs immediate IV medication</p>
+                <p><strong>Problem:</strong> Extreme needle phobia, hyperventilating, refusing treatment</p>
+                <p><strong>Your Goal:</strong> De-escalate and gain consent for treatment</p>
+            </div>
+        </section>
+
+        <!-- Conversation Area -->
+        <section class="conversation">
+            <h2>💬 Conversation</h2>
+            <div class="messages" id="messages">
+                <div class="system-message">
+                    <p>🎯 Simulation started. Sarah is in extreme distress. Use empathy to de-escalate.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Input Area -->
+        <section class="input-area">
+            <div class="input-container">
+                <button class="mic-button" id="micButton">
+                    <span class="mic-icon">🎙️</span>
+                    <span class="mic-text">Push to Talk</span>
+                </button>
+                <div class="text-input-wrapper">
+                    <input 
+                        type="text" 
+                        id="userInput" 
+                        placeholder="Type what you would say to Sarah..."
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button class="send-button" onclick="sendMessage()">
+                        📤 Send
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Agent Logs (Sidebar) -->
+        <aside class="agent-logs" id="agentLogs">
+            <div class="logs-header">
+                <h3>🧠 Agent Logs</h3>
+                <button class="close-logs" onclick="toggleLogs()">✕</button>
+            </div>
+            <div class="logs-content" id="logsContent">
+                <p class="logs-empty">Waiting for interaction...</p>
+            </div>
+        </aside>
+
+        <!-- Toggle Logs Button -->
+        <button class="toggle-logs-btn" onclick="toggleLogs()">
+            🧠 Agent Logs
+        </button>
+
+        <!-- Reset Button -->
+        <button class="reset-button" onclick="resetSimulation()">
+            🔄 Reset Simulation
+        </button>
+    </div>
+
+    <!-- API Key Modal -->
+    <div class="modal" id="apiModal">
+        <div class="modal-content">
+            <h2>⚙️ Configuration</h2>
+            <p>Enter your Google Gemini API Key to start</p>
+            <input 
+                type="password" 
+                id="apiKeyInput" 
+                placeholder="AIza..."
+            >
+            <small>Get it from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></small>
+            <button onclick="saveApiKey()">Start Simulation</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

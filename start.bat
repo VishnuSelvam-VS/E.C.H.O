@@ -1,0 +1,6 @@
+@echo off
+echo Setting up E.C.H.O...
+pip install -r requirements.txt
+echo Starting Simulator...
+python -m streamlit run app.py
+pause
